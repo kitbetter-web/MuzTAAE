@@ -1129,6 +1129,18 @@ static OSStatus ioUnitRenderNotifyCallback(void *inRefCon, AudioUnitRenderAction
     return YES;
 }
 
+- (void)pause {
+    if ( self.running ) {
+        AECheckOSStatus(AUGraphStop(_audioGraph), "AUGraphStop");
+        AECheckOSStatus(AudioOutputUnitStop(_ioAudioUnit), "AudioOutputUnitStop");
+    }
+    
+    AEMessageQueueProcessMessagesOnRealtimeThread(_messageQueue);
+    [_messageQueue stopPolling];
+    
+    _started = NO;
+}
+
 - (void)stop {
     [self stopInternal];
     _started = NO;

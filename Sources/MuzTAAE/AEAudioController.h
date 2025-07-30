@@ -630,6 +630,8 @@ typedef enum {
  */
 - (BOOL)start:(NSError**)error;
 
+- (void)pause;
+
 /*!
  * Stop audio engine
  */
